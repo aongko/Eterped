@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Client</title>
+
+	<script src="/socket.io/socket.io.js"></script>
+	<script type="text/javascript">
+		// some code
+		var socketio = io.connect("127.0.0.1:1337");
+
+		socketio.on("message_to_client", function(data) {
+			var str = "<hr>"+data["message"];
+			document.getElementById("chat_log").innerHTML = (str + document.getElementById("chat_log").innerHTML);
+		});
+
+		function send_message() {
+			var msg = document.getElementById("txt_message").value;
+			socketio.emit("message_to_server", {message: msg});
+		}
+	</script>
+</head>
+<body>
+	<input type="text" id="txt_message" />
+	<button onclick="send_message()">Send</button>
+	<div id="chat_log"></div>
+</body>
+</html>
