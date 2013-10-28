@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<!DOCTYPE web-app>
+
+<web-app>
+	<display-name>Eterped</display-name>
+	<description>
+	Eterped
+	</description>  
+    <welcome-file-list>
+        <welcome-file>home.jsp</welcome-file>
+    </welcome-file-list>
+	<servlet>
+		<servlet-name>login</servlet-name>
+		<servlet-class>com.webprog.login</servlet-class>
+	</servlet>
+    <servlet-mapping>
+      <servlet-name>login</servlet-name>
+      <url-pattern>/servlet/login</url-pattern>
+    </servlet-mapping>
+</web-app>
