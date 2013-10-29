@@ -3,24 +3,34 @@
 <head>
 	<title>Client</title>
 
-	<script src="/socket.io/socket.io.js"></script>
+	<script src="http://10.21.0.50:1337/socket.io/socket.io.js"></script>
 	<script type="text/javascript">
 		// some code
-		var socketio = io.connect("127.0.0.1:1337");
+		var socketio = io.connect("10.21.0.50:1337");
 
 		socketio.on("message_to_client", function(data) {
-			var str = "<hr>"+data["message"];
-			document.getElementById("chat_log").innerHTML = (str + document.getElementById("chat_log").innerHTML);
+			// var str = "<hr>"+data["message"];
+			var str = data["message"];
+			// document.getElementById("chat_log").innerHTML = (str + document.getElementById("chat_log").innerHTML);
+			var text = document.getElementById("txt_message");
+			text.value += str;
 		});
 
 		function send_message() {
-			var msg = document.getElementById("txt_message").value;
+			var msg = document.getElementById("txt_message").html();
 			socketio.emit("message_to_server", {message: msg});
+		}
+		function send_message2(e) {
+			e.preventDefault();
+			var text = document.getElementById("txt_message");
+			var msg = String.fromCharCode(e.which);
+			socketio.emit("message_to_server", {message: msg});
+			console.log(msg);
 		}
 	</script>
 </head>
 <body>
-	<input type="text" id="txt_message" />
+	<textarea id="txt_message" onkeydown="send_message2(event)"></textarea>
 	<button onclick="send_message()">Send</button>
 	<div id="chat_log"></div>
 </body>
