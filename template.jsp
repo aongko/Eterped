@@ -3,6 +3,7 @@
 	<head>
 		<title>Eterped</title>
         <script type="text/javascript" src="js/jquery-1.7.2.min.js"></script>
+        <script type="text/javascript" src="js/nicEdit.js"></script>
 		<script>
 			$(document).ready(function(){
 				<%! String url;%>

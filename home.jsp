@@ -1,1 +1,9 @@
-<h1>Welcome <%=session.getAttribute("user_name")%></h1>
+<script>
+	bkLib.onDomLoaded(function(){
+		var nic = new nicEditor();
+		nic.addInstance("Edit");
+	})
+</script>
+<textarea id="Edit">
+	asjldhajksdhajksdhukas
+</textarea>
