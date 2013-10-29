@@ -1,0 +1,1 @@
+<h1>Welcome <%=session.getAttribute("user_name")%></h1>
