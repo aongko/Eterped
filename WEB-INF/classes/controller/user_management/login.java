@@ -1,4 +1,4 @@
-package com.user_management;
+package controller.user_management;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
@@ -7,7 +7,7 @@ import java.util.*;
 
 public class login extends HttpServlet{
 
-	public String target = "/welcome.jsp";
+	public String target = "/home.jsp";
 	
 	public String getUser(String username, String password){
 		
@@ -23,13 +23,15 @@ public class login extends HttpServlet{
 		HttpServletResponse response)
 		throws ServletException, IOException{
 		  // If it is a get request forward to doPost()
-		  doPost(request, response);
+		  //doPost(request, response);
 	}
 
 	public void doPost(HttpServletRequest request,
 		HttpServletResponse response)
 		throws ServletException, IOException {
-
+		
+		HttpSession session = request.getSession();
+		
 		// Get the username from the request
 		String username = request.getParameter("username");
 		// Get the password from the request
@@ -38,14 +40,17 @@ public class login extends HttpServlet{
 		String user = getUser(username, password);
 
 		// Add the fake user to the request
-		request.setAttribute("USER", user);
+		session.setAttribute("user_name", username);
 
 		// Forward the request to the target named
 		ServletContext context = getServletContext();
-
+		String url = request.getRequestURL().toString();
+		String baseURL = url.substring(0, url.length() - request.getRequestURI().length()) + request.getContextPath() + "/";
+		System.out.println(baseURL);
 		RequestDispatcher dispatcher =
-		context.getRequestDispatcher(target);
+		context.getRequestDispatcher("/");
 		dispatcher.forward(request, response);
+		return;
 	}
 
 	public void destroy() {
