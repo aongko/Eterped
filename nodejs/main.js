@@ -15,6 +15,6 @@ var io = require('socket.io').listen(app);
 io.sockets.on('connection', function(socket) {
 	socket.on('message_to_server', function(data) {
 		var escaped_message = sanitize(data["message"]).escape();
-		io.sockets.emit('message_to_client', {message:escaped_message});
+		socket.broadcast.emit('message_to_client', {message:escaped_message});
 	});
 });
