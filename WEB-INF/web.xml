@@ -20,6 +20,10 @@
 		<servlet-name>Register</servlet-name>
 		<servlet-class>controller.user_management.Register</servlet-class>
 	</servlet>
+	<servlet>
+		<servlet-name>Logout</servlet-name>
+		<servlet-class>controller.user_management.Logout</servlet-class>
+	</servlet>
 	
 	<!-- Mapping servlet -->
     <servlet-mapping>
@@ -29,5 +33,9 @@
 	<servlet-mapping>
 		<servlet-name>Register</servlet-name>
 		<url-pattern>/Register</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>Logout</servlet-name>
+		<url-pattern>/Logout</url-pattern>
 	</servlet-mapping>
 </web-app>

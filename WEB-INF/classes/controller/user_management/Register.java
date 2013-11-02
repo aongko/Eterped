@@ -7,3 +7,4 @@ import java.util.*;
 
 public class Register extends HttpServlet
 {
+}

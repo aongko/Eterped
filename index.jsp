@@ -25,22 +25,16 @@
 		<script type="text/javascript">
 			$(document).ready(function()
 			{
-				alert("<%= session.getAttribute("user_name") %>");
 				<%! String url;%>
 				<%
-					if(session.getAttribute("user_name") == null)
-					{
-						url = "login";
+					if(session.getAttribute("user_name") == null) {
 				%>
-						$("#content").load("<%=url%>.jsp");
 				<%
-					}
-					else
-					{
+					} else {
 						url = "home";
 				%>
 						$("#content").load("<%=url%>.jsp");
-				<%}%>
+				<% } %>
 			});
 			
 			// Java Script function to load view
@@ -54,25 +48,22 @@
 		</script>
 	</head>
 	<body>
-		<div class="navbar navbar-inverse navbar-fixed-top" style="height:10%">
+		<div class="navbar navbar-inverse navbar-fixed-top">
 			<div class="container">
 				<div class="navbar-header">
-					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-						<span class="icon-bar"></span>
-						<span class="icon-bar"></span>
-						<span class="icon-bar"></span>
-					</button>
-					<a class="navbar-brand" href="home.jsp">Bluelight Online Shop</a>
+					<a class="navbar-brand" href="home.jsp">Eterped</a>
 				</div>
 				<div class="navbar-collapse collapse">
 					<ul class="nav navbar-nav">
-						<li class="active"><a style="cursor:pointer" onclick="movePage('login', this)">Login</a></li>
-						<li><a style="cursor:pointer" onclick="movePage('register', this)">Register</a></li>
+						<li class="active"><a style="cursor:pointer" onclick="movePage('home', this)">Home</a></li>
+						<li><a style="cursor:pointer" onclick="movePage('eterped', this)">Text Editor</a></li>
 					</ul>
+				</div>
+				<div class="navbar-collapse collapse" style="margin-top:-4%">
+					<span class="navbar-right" style="color:white">Welcome</span>
 				</div>
 			</div>
 		</div>
-		<img src="image/starlight.jpg" width="100%" height="300px"/>
 		
 		<div id="content">
 		</div>

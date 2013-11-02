@@ -1,18 +1,50 @@
 package controller.user_management;
 
-import javax.servlet.*;
-import javax.servlet.http.*;
 import java.io.*;
 import java.util.*;
+import javax.servlet.*;
+import javax.servlet.http.*;
+import java.sql.*;
+import java.text.*;
 
 public class Login extends HttpServlet
 {
-
-	public String target = "/home.jsp";
+	private int Role;
 	
-	public String getUser(String username, String password){
+	public boolean cekUser(String username, String password, HttpServletResponse response) throws ServletException, IOException
+	{
+		String Driver = "com.mysql.jdbc.Driver";
+		String db = "jdbc:mysql://localhost/eterped";
+		PrintWriter out = response.getWriter();
 		
-		return username;
+		try {
+			Class.forName(Driver);
+
+			Connection conn = DriverManager.getConnection(db, "root", "");
+
+			Statement stmt = conn.createStatement();
+			String sql = "SELECT username, password, role FROM users a JOIN roles b on a.roleid = b.roleid WHERE username = '" + username + "' AND password = '" + password + "'";
+			ResultSet rs = stmt.executeQuery(sql);
+			
+			if (rs.next()) {
+				Role = rs.getInt("role");
+				return true;
+			} else return false;
+			
+			/* GET LAST INSERTED ID
+			String q = "INSERT INTO testing_table (name) VALUES ('adit ganteng lagi')";
+			int res = stmt.executeUpdate(q);
+			String qu = "SELECT LAST_INSERT_ID() as id FROM testing_table";
+			ResultSet rs = stmt.executeQuery(qu);
+			while (rs.next()) {
+				out.println(rs.getInt("id"));
+			}*/
+			
+		} catch (Exception e) {
+			out.println(e);
+		}
+		
+		return true;
 	}
 	
 	public void init(ServletConfig config)
@@ -21,41 +53,34 @@ public class Login extends HttpServlet
 	}
 	
 	@Override
-	public void doGet(HttpServletRequest request,
-		HttpServletResponse response)
+	public void doGet(HttpServletRequest request, HttpServletResponse response)
 		throws ServletException, IOException{
 		  // If it is a get request forward to doPost()
 		  //doPost(request, response);
 	}
 
 	@Override
-	public void doPost(HttpServletRequest request,
-		HttpServletResponse response)
+	public void doPost(HttpServletRequest request, HttpServletResponse response)
 		throws ServletException, IOException {
 		
 		HttpSession session = request.getSession();
 		
-		// Get the username from the request
 		String username = request.getParameter("username");
-		// Get the password from the request
 		String password = request.getParameter("password");
-
-		String user = getUser(username, password);
-
-		// Add the fake user to the request
-		//session.setAttribute("user_name", username);
-		
 		PrintWriter out = response.getWriter();
-		out.println(user);
-		// Forward the request to the target named
-		ServletContext context = getServletContext();
-		String url = request.getRequestURL().toString();
-		String baseURL = url.substring(0, url.length() - request.getRequestURI().length()) + request.getContextPath() + "/";
-		out.println(baseURL);
-		/*RequestDispatcher dispatcher =
-		context.getRequestDispatcher("/");
-		dispatcher.forward(request, response);
-		return;*/
+		
+		boolean check = cekUser(username, password, response);
+		if (check) {
+			session.setAttribute("username", username);
+			session.setAttribute("role", Role);
+			java.util.Date date = new java.util.Date();
+			SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+			session.setAttribute("time", ft.format(date));
+			getServletContext().getRequestDispatcher("/home.jsp").forward(request, response);
+		} else {
+			request.setAttribute("err", "Wrong username or password");
+			getServletContext().getRequestDispatcher("/login.jsp").forward(request, response);
+		}
 	}
 
 	public void destroy() 
