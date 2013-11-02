@@ -4,7 +4,7 @@
 	<title>Client</title>
 
     <script type="text/javascript" src="js/jquery-1.7.2.min.js"></script>
-	<script src="http://10.21.0.46:1337/socket.io/socket.io.js"></script>
+	<script src="http://10.21.0.50:1337/socket.io/socket.io.js"></script>
 	<script type="text/javascript">
 		function setCookie(cookieName,value,liveTime){
 			var expire = new Date();
@@ -40,8 +40,9 @@
 		
 		$(document).ready(function(){
 			$.fn.selectRange = function(start, end) {
-				var position = $("#txt_message").getCursorPosition();
-				setCookie("position", position);
+				// var position = $("#txt_message").getCursorPosition();
+				// setCookie("position", position);
+				// console.log('ready - position: '+position);
 				if(!end) end = start; 
 				return this.each(function() {
 					if (this.setSelectionRange) {
@@ -71,27 +72,55 @@
 				return pos;
 			};
 			setCookie("currentValue", $("#txt_message").val());
-			setCookie("position", 0);
-			$("#txt_message").keydown(editFile);
+			// setCookie("position", 0);
+			// console.log('getCursorPosition - position: 0');
+			$("#txt_message").keyup(editFile);
 		});
 		// some code
-		var socketio = io.connect("10.21.0.46:1337");
+		var socketio = io.connect("10.21.0.50:1337");
 
 		socketio.on("message_to_client", function(data) {
 			// var str = "<hr>"+data["message"];
 			var str = data["message"];
-			var pos = getCookie("position");
-			var olValue = getCookie("currentValue");
+			var pos = parseInt(getCookie("position"));
+			var oldValue = getCookie("currentValue");
+			var newValue = str;
+
+			if (oldValue == newValue) return;
+
+			var editPosEnd = parseInt(data["pos"]);
+			var changeCharLength = newValue.length - oldValue.length;
+			var editPosStart = editPosEnd - changeCharLength;
+
 			// document.getElementById("chat_log").innerHTML = (str + document.getElementById("chat_log").innerHTML);
-			$("#txt_message").val(str);
-			pos += olValue.length - $("#txt_message").val().length;
+			$("#txt_message").val(newValue);
+			setCookie("currentValue", newValue);
+
+			// console.log('oldPos: '+pos);
+			
+			// console.log('editPosStart: '+editPosStart);
+			// console.log('changeCharLength: '+changeCharLength);
+			// console.log('editPosEnd: '+editPosEnd);
+
+			if (editPosStart <= pos) {
+				pos += changeCharLength;
+			}
+			// pos += olValue.length - $("#txt_message").val().length;
+			setCookie("position", pos);
+			// console.log("newPos: "+pos);
 			$("#txt_message").selectRange(pos);
 		});
 		
 		function editFile(e) {
 			var position = $("#txt_message").getCursorPosition();
 			setCookie("position", position);
-			socketio.emit("message_to_server", {message: $("#txt_message").val()});
+			// console.log('editfile - position: '+position);
+			var oldValue = getCookie("currentValue");
+			var newValue = $("#txt_message").val();
+			if (oldValue == newValue) return;
+
+			setCookie("currentValue", newValue);
+			socketio.emit("message_to_server", {message: newValue, pos: position});
 		}
 	</script>
 </head>
