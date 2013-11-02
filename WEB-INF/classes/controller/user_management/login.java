@@ -5,7 +5,8 @@ import javax.servlet.http.*;
 import java.io.*;
 import java.util.*;
 
-public class login extends HttpServlet{
+public class Login extends HttpServlet
+{
 
 	public String target = "/home.jsp";
 	
@@ -19,6 +20,7 @@ public class login extends HttpServlet{
 		super.init(config);
 	}
 	
+	@Override
 	public void doGet(HttpServletRequest request,
 		HttpServletResponse response)
 		throws ServletException, IOException{
@@ -26,6 +28,7 @@ public class login extends HttpServlet{
 		  //doPost(request, response);
 	}
 
+	@Override
 	public void doPost(HttpServletRequest request,
 		HttpServletResponse response)
 		throws ServletException, IOException {
@@ -40,19 +43,23 @@ public class login extends HttpServlet{
 		String user = getUser(username, password);
 
 		// Add the fake user to the request
-		session.setAttribute("user_name", username);
-
+		//session.setAttribute("user_name", username);
+		
+		PrintWriter out = response.getWriter();
+		out.println(user);
 		// Forward the request to the target named
 		ServletContext context = getServletContext();
 		String url = request.getRequestURL().toString();
 		String baseURL = url.substring(0, url.length() - request.getRequestURI().length()) + request.getContextPath() + "/";
-		System.out.println(baseURL);
-		RequestDispatcher dispatcher =
+		out.println(baseURL);
+		/*RequestDispatcher dispatcher =
 		context.getRequestDispatcher("/");
 		dispatcher.forward(request, response);
-		return;
+		return;*/
 	}
 
-	public void destroy() {
+	public void destroy() 
+	{
+	
 	}
 }
