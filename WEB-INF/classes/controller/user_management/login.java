@@ -9,7 +9,7 @@ import java.text.*;
 
 public class Login extends HttpServlet
 {
-	private int Role;
+	private String Role;
 	
 	public boolean cekUser(String username, String password, HttpServletResponse response) throws ServletException, IOException
 	{
@@ -27,7 +27,7 @@ public class Login extends HttpServlet
 			ResultSet rs = stmt.executeQuery(sql);
 			
 			if (rs.next()) {
-				Role = rs.getInt("role");
+				Role = rs.getString("role");
 				stmt.close();
 				return true;
 			} else {
