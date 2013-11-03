@@ -8,6 +8,13 @@ import java.util.*;
 public class Logout extends HttpServlet
 {
 	@Override
+	public void doGet(HttpServletRequest request, HttpServletResponse response)
+		throws ServletException, IOException{
+		  // If it is a get request forward to doPost()
+		  doPost(request, response);
+	}
+	
+	@Override
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
 		throws ServletException, IOException {
 		
@@ -15,6 +22,6 @@ public class Logout extends HttpServlet
         if (session != null) {  
             session.invalidate();  
         }  
-        getServletContext().getRequestDispatcher("/Login.jsp").forward(request, response); 
+        response.sendRedirect("login.jsp");
 	}
 }	

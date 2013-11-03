@@ -28,8 +28,12 @@ public class Login extends HttpServlet
 			
 			if (rs.next()) {
 				Role = rs.getInt("role");
+				stmt.close();
 				return true;
-			} else return false;
+			} else {
+				stmt.close();
+				return false;
+			}
 			
 			/* GET LAST INSERTED ID
 			String q = "INSERT INTO testing_table (name) VALUES ('adit ganteng lagi')";
@@ -76,9 +80,9 @@ public class Login extends HttpServlet
 			java.util.Date date = new java.util.Date();
 			SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
 			session.setAttribute("time", ft.format(date));
-			getServletContext().getRequestDispatcher("/home.jsp").forward(request, response);
+			response.sendRedirect("index.jsp");
 		} else {
-			request.setAttribute("err", "Wrong username or password");
+			request.setAttribute("errLog", "Wrong username or password");
 			getServletContext().getRequestDispatcher("/login.jsp").forward(request, response);
 		}
 	}

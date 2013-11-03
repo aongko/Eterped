@@ -25,15 +25,10 @@
 		<script type="text/javascript">
 			$(document).ready(function()
 			{
-				<%! String url;%>
-				<%
-					if(session.getAttribute("user_name") == null) {
-				%>
-				<%
-					} else {
-						url = "home";
-				%>
-						$("#content").load("<%=url%>.jsp");
+				<% if (session.getAttribute("username") == null) {
+					  response.sendRedirect("login.jsp"); %>
+				<% } else { %>
+					$("#content").load("home.jsp");
 				<% } %>
 			});
 			
@@ -59,8 +54,8 @@
 						<li><a style="cursor:pointer" onclick="movePage('eterped', this)">Text Editor</a></li>
 					</ul>
 				</div>
-				<div class="navbar-collapse collapse" style="margin-top:-4%">
-					<span class="navbar-right" style="color:white">Welcome</span>
+				<div class="navbar-collapse collapse" style="margin-top:-3%">
+					<span class="navbar-right" style="color:white">Welcome, <%= session.getAttribute("username") %> </span>
 				</div>
 			</div>
 		</div>
