@@ -10,6 +10,7 @@ import java.text.*;
 public class Login extends HttpServlet
 {
 	private String Role;
+	private String RealName;
 	
 	public boolean cekUser(String username, String password, HttpServletResponse response) throws ServletException, IOException
 	{
@@ -23,26 +24,18 @@ public class Login extends HttpServlet
 			Connection conn = DriverManager.getConnection(db, "root", "");
 
 			Statement stmt = conn.createStatement();
-			String sql = "SELECT username, password, role FROM users a JOIN roles b on a.roleid = b.roleid WHERE username = '" + username + "' AND password = '" + password + "'";
+			String sql = "SELECT name, username, password, role FROM users a JOIN usergroups b ON a.userid = b.creatorid JOIN roles c ON a.roleid = c.roleid WHERE username = '" + username + "' AND password = '" + password + "'";
 			ResultSet rs = stmt.executeQuery(sql);
 			
 			if (rs.next()) {
 				Role = rs.getString("role");
+				RealName = rs.getString("name");
 				stmt.close();
 				return true;
 			} else {
 				stmt.close();
 				return false;
 			}
-			
-			/* GET LAST INSERTED ID
-			String q = "INSERT INTO testing_table (name) VALUES ('adit ganteng lagi')";
-			int res = stmt.executeUpdate(q);
-			String qu = "SELECT LAST_INSERT_ID() as id FROM testing_table";
-			ResultSet rs = stmt.executeQuery(qu);
-			while (rs.next()) {
-				out.println(rs.getInt("id"));
-			}*/
 			
 		} catch (Exception e) {
 			out.println(e);
@@ -77,6 +70,7 @@ public class Login extends HttpServlet
 		if (check) {
 			session.setAttribute("username", username);
 			session.setAttribute("role", Role);
+			session.setAttribute("name", RealName);
 			java.util.Date date = new java.util.Date();
 			SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
 			session.setAttribute("time", ft.format(date));

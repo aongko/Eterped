@@ -24,6 +24,14 @@
 		<servlet-name>Logout</servlet-name>
 		<servlet-class>controller.user_management.Logout</servlet-class>
 	</servlet>
+	<servlet>
+		<servlet-name>DeleteUser</servlet-name>
+		<servlet-class>controller.user_management.DeleteUser</servlet-class>
+	</servlet>
+	<servlet>
+		<servlet-name>UserList</servlet-name>
+		<servlet-class>controller.user_management.UserList</servlet-class>
+	</servlet>
 	
 	<!-- Mapping servlet -->
     <servlet-mapping>
@@ -37,5 +45,13 @@
 	<servlet-mapping>
 		<servlet-name>Logout</servlet-name>
 		<url-pattern>/Logout</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>DeleteUser</servlet-name>
+		<url-pattern>/DeleteUser</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>UserList</servlet-name>
+		<url-pattern>/UserList</url-pattern>
 	</servlet-mapping>
 </web-app>

@@ -1,55 +1,13 @@
-<!DOCTYPE HTML>
-<html>
-	<head>
-		<title>Eterped</title>
-		
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<meta name="description" content="">
-		<meta name="author" content="">
-		<link rel="shortcut icon" href="icon/favicon.png">
-		
-		<!-- Custom styles for this template -->
-		<link href="css/bootstrap.css" rel="stylesheet">
-		<link href="css/docs.css" rel="stylesheet">
-		<link href="css/pygments-manni.css" rel="stylesheet">
-		<link href="css/jumbotron.css" rel="stylesheet">
-	
-		<!-- JS file -->
-		<script type="text/javascript" src="js/jquery-1.7.2.min.js"></script>
-		<script type="text/javascript" src="js/nicEdit.js"></script>
-		<script type="text/javascript" src="js/application.js"></script>
-		<script type="text/javascript" src="js/bootstrap.js"></script>
-		<script type="text/javascript" src="js/holder.js"></script>
-		<script type="text/javascript" src="js/engine.js"></script>
-	</head>
+<%@ page contentType="text/html; charset=utf-8" language="java" import="java.util.*" errorPage="" %>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+	<!-- include header file -->
+	<%@ include file = "template-page/tempHeader.jsp" %>
 	<body>
 		<% if (session.getAttribute("username") != null) response.sendRedirect("index.jsp"); %>
-		<div class="navbar navbar-inverse navbar-fixed-top">
-			<div class="container">
-				<div class="navbar-header">
-					<a class="navbar-brand" href="login.jsp">Eterped</a>
-					<span style="margin-top:-13%; margin-left:100%; width:100%" class="navbar-brand">
-						<% String errLog = (String)request.getAttribute("errLog");
-							if (errLog != null) { %>
-								<span style="color:red; font-size:20px"> <%= errLog %> </span>
-						<% } %>
-					</span>
-				</div>
-				<div class="navbar-collapse collapse">
-					<form class="navbar-form navbar-right" method="post" action="Login">
-						<div class="form-group">
-							<input type="text" name="username" placeholder="Username" class="form-control">
-						</div>
-						<div class="form-group">
-							<input type="password" name="password" placeholder="Password" class="form-control">
-						</div>
-						<button type="submit" class="btn btn-success">Sign in</button>
-					</form>
-				</div>
-			</div>
-		</div>
-		<img src="image/starlight.jpg" width="100%" height="300px"/>
+		
+		<%@ include file = "template-page/tempNavNonLogin.jsp" %>
 		
 		<div class="container">
 			<div class="row">
