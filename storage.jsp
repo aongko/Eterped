@@ -10,9 +10,12 @@
 		
 		<%
 			Storage storage = new Storage();
+			String s = (String)session.getAttribute("name");
+			storage.setUsername(s);
 			for (FileData x : storage.hoho()) {
-				out.println(x.getDataID() + "<br>");
+				out.println("<a href=" + x.getName() + ">" + x.getName() + "</a>" + "<br>");
 			}
+			
 		%>
 	</body>
 </html>

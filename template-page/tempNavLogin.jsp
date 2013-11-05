@@ -7,6 +7,7 @@
 			<ul class="nav navbar-nav">
 				<li><a href="home.jsp">Home</a></li>
 				<li><a href="textEditor.jsp">Text Editor</a></li>
+				<li><a href="storage.jsp">Storage</a></li>
 				<% if (session.getAttribute("role").equals("admin")) { %>
 					<li><a href="UserList">User List</a></li>
 				<% } %>
