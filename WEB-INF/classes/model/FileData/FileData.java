@@ -1,4 +1,4 @@
-package model.file_data;
+package model.FileData;
 
 public class FileData{
 	int ownerid,parentid,dataid;
