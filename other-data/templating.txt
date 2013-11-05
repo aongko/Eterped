@@ -1,0 +1,23 @@
+$(".data-file").remove();
+for () {
+	var row = asdgfadsg;
+	var template = $("#template").clone().removeAttr('id').show().addClass('data-file');
+	$(".id", template).html(row.DataId);
+	$(".name", template).html(row.FileName);
+}
+
+
+
+
+
+
+
+
+
+
+<table>
+	<tr id="template" style="display: none">
+		<td class="id"></td>
+		<td class="name"></td>
+	</tr>
+</table>
