@@ -1,0 +1,9 @@
+syarat-syarat software:
+JDK
+Nodejs
+JSP Server (Tomcat)
+MySQL Server (phpmyadmin)
+
+Teknologi yang digunakan:
+HTML, CSS, JSP, SERVLET, PHPMYADMIN, XML, JAVASCRIPT, NODEJS, SOCKETIO
+
