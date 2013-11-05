@@ -6,11 +6,26 @@ import javax.servlet.*;
 import javax.servlet.http.*;
 import java.sql.*;
 import java.text.*;
+import java.security.MessageDigest;
 
 public class Login extends HttpServlet
 {
 	private String Role;
 	private String RealName;
+	
+	public String encryptPassword(String pass) throws Exception
+	{
+		String original = pass;
+		MessageDigest md = MessageDigest.getInstance("MD5");
+		md.update(original.getBytes());
+		byte[] digest = md.digest();
+		StringBuffer sb = new StringBuffer();
+		for (byte b : digest) {
+			sb.append(Integer.toHexString((int) (b & 0xff)));
+		}
+		
+		return sb.toString();
+	}
 	
 	public boolean cekUser(String username, String password, HttpServletResponse response) throws ServletException, IOException
 	{
@@ -63,8 +78,13 @@ public class Login extends HttpServlet
 		HttpSession session = request.getSession();
 		
 		String username = request.getParameter("username");
-		String password = request.getParameter("password");
+		String password = "";
 		PrintWriter out = response.getWriter();
+		
+		try {
+			password = encryptPassword(request.getParameter("password"));
+		} catch (Exception e) {
+		}
 		
 		boolean check = cekUser(username, password, response);
 		if (check) {

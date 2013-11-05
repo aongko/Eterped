@@ -5,9 +5,24 @@ import javax.servlet.http.*;
 import java.io.*;
 import java.sql.*;
 import java.util.*;
+import java.security.MessageDigest;
 
 public class Register extends HttpServlet
 {
+	public String encryptPassword(String pass) throws Exception
+	{
+		String original = pass;
+		MessageDigest md = MessageDigest.getInstance("MD5");
+		md.update(original.getBytes());
+		byte[] digest = md.digest();
+		StringBuffer sb = new StringBuffer();
+		for (byte b : digest) {
+			sb.append(Integer.toHexString((int) (b & 0xff)));
+		}
+		
+		return sb.toString();
+	}
+	
 	public void insertIntoDatabase(HttpServletRequest request, HttpServletResponse response, String username, String password, String realName)
 	throws ServletException, IOException {
 		String Driver = "com.mysql.jdbc.Driver";
@@ -78,6 +93,7 @@ public class Register extends HttpServlet
 		String pass = request.getParameter("pass");
 		String confPass = request.getParameter("confpass");
 		String realName = request.getParameter("name");
+		PrintWriter out = response.getWriter();
 		
 		if (username.length() == 0) {
 			request.setAttribute("errReg", "Username must be filled");
@@ -95,6 +111,11 @@ public class Register extends HttpServlet
 			request.setAttribute("errReg", "Password and confirm must same");
 			getServletContext().getRequestDispatcher("/login.jsp").forward(request, response);
 		} else {
+			try {
+				pass = encryptPassword(pass);
+			} catch (Exception e) {
+			}
+			
 			insertIntoDatabase(request, response, username, pass, realName);
 			request.setAttribute("errReg", "Successfully Registered");
 			getServletContext().getRequestDispatcher("/login.jsp").forward(request, response);
