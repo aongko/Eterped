@@ -20,7 +20,6 @@ public class UserList extends HttpServlet
 	{
 		ArrayList<String> username = new ArrayList<String>();
 		ArrayList<Integer> userid = new ArrayList<Integer>();
-		ArrayList<Integer> roleid = new ArrayList<Integer>();
 		PrintWriter out = response.getWriter();
 		
 		String Driver = "com.mysql.jdbc.Driver";
@@ -39,12 +38,9 @@ public class UserList extends HttpServlet
 				String user = rs.getString("username");
 				String role = rs.getString("role");
 				int userId = rs.getInt("userid");
-				int roleId = rs.getInt("roleid");
 				if (!role.equals("admin")) {
 					username.add(user);
 					userid.add(userId);
-					roleid.add(roleId);
-					out.println(user + " " + userId + " " + roleId);
 				}
 			}
 			
@@ -56,7 +52,6 @@ public class UserList extends HttpServlet
 		
 		request.setAttribute("username", username);
 		request.setAttribute("userid", userid);
-		request.setAttribute("roleid", roleid);
 		getServletContext().getRequestDispatcher("/userList.jsp").forward(request, response);
 	}
 }

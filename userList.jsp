@@ -23,13 +23,20 @@
 						</tr>
 					</thead>
 					<tbody>
-						<c:forEach begin="0" end="${fn:length(username) - 1}" varStatus="loop">
-							<tr>
-								<td style="text-align:center">${(loop.index) + 1}</td>
-								<td style="text-align:left">${username[loop.index]}</td>
-								<td style="text-align:center"><a href="DeleteUser?userid=${userid[loop.index]}&roleid=${roleid[loop.index]}" class="btn btn-danger">Delete</a></td>
-							</tr>
-						</c:forEach>
+					<c:choose>
+						<c:when test = "${fn:length(username) != 0}">
+							<c:forEach begin="0" end="${fn:length(username) - 1}" varStatus="loop">
+								<tr>
+									<td style="text-align:center">${(loop.index) + 1}</td>
+									<td style="text-align:left">${username[loop.index]}</td>
+									<td style="text-align:center"><a href="DeleteUser?userid=${userid[loop.index]}" class="btn btn-danger">Delete</a></td>
+								</tr>
+							</c:forEach>
+						</c:when>
+						<c:otherwise>
+							<tr><td colspan="3" style="text-align:center">No data Available</td></tr>
+						</c:otherwise>
+					</c:choose>
 					</tbody>
 				</table>
 			</div>

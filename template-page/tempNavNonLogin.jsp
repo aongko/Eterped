@@ -2,10 +2,10 @@
 	<div class="container">
 		<div class="navbar-header">
 			<a class="navbar-brand" href="login.jsp">Eterped</a>
-			<span style="margin-top:-13%; margin-left:100%; width:100%" class="navbar-brand">
+			<span style="margin-top:-18%; margin-left:100%; width:100%" class="navbar-brand">
 				<% String errLog = (String)request.getAttribute("errLog");
 					if (errLog != null) { %>
-						<span style="color:red; font-size:20px"> <%= errLog %> </span>
+						<span style="color:red; font-size:13px"> <%= errLog %> </span>
 				<% } %>
 			</span>
 		</div>
