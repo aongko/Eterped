@@ -12,6 +12,8 @@ public class Login extends HttpServlet
 {
 	private String Role;
 	private String RealName;
+	private String username;
+	private String password;
 	
 	public String encryptPassword(String pass) throws Exception
 	{
@@ -77,9 +79,7 @@ public class Login extends HttpServlet
 		
 		HttpSession session = request.getSession();
 		
-		String username = request.getParameter("username");
-		String password = "";
-		PrintWriter out = response.getWriter();
+		username = request.getParameter("username");
 		
 		try {
 			password = encryptPassword(request.getParameter("password"));
@@ -99,10 +99,5 @@ public class Login extends HttpServlet
 			request.setAttribute("errLog", "Wrong username or password");
 			getServletContext().getRequestDispatcher("/login.jsp").forward(request, response);
 		}
-	}
-
-	public void destroy() 
-	{
-	
 	}
 }

@@ -16,7 +16,7 @@ import model.FileData.FileData;
 
 public class Storage extends HttpServlet {
     
-    String username;
+    private String username;
     
     public void setUsername(String value){
         username=value;

@@ -9,12 +9,14 @@ import java.text.*;
 
 public class DeleteUser extends HttpServlet
 {
+	private int uid;
+	
 	@Override
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
 	{
 		PrintWriter out = response.getWriter();
 
-		int uid = Integer.parseInt(request.getParameter("userid"));
+		uid = Integer.parseInt(request.getParameter("userid"));
 		  
 		String Driver = "com.mysql.jdbc.Driver";
 		String db = "jdbc:mysql://localhost/eterped";

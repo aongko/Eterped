@@ -9,6 +9,11 @@ import java.security.MessageDigest;
 
 public class Register extends HttpServlet
 {
+	private String username;
+	private String pass;
+	private String confPass;
+	private String realName;
+	
 	public String encryptPassword(String pass) throws Exception
 	{
 		String original = pass;
@@ -82,10 +87,10 @@ public class Register extends HttpServlet
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
 		throws ServletException, IOException {
 		
-		String username = request.getParameter("user");
-		String pass = request.getParameter("pass");
-		String confPass = request.getParameter("confpass");
-		String realName = request.getParameter("name");
+		username = request.getParameter("user");
+		pass = request.getParameter("pass");
+		confPass = request.getParameter("confpass");
+		realName = request.getParameter("name");
 		PrintWriter out = response.getWriter();
 		
 		if (username.length() == 0) {
