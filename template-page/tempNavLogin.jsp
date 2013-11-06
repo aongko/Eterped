@@ -1,3 +1,5 @@
+<% if (session.getAttribute("username") == null) response.sendRedirect("login.jsp"); %>
+
 <div class="navbar navbar-inverse navbar-fixed-top">
 	<div class="container">
 		<div class="navbar-header">
@@ -8,8 +10,10 @@
 				<li><a href="home.jsp">Home</a></li>
 				<li><a href="textEditor.jsp">Text Editor</a></li>
 				<li><a href="storage.jsp">Storage</a></li>
-				<% if (session.getAttribute("role").equals("admin")) { %>
-					<li><a href="UserList">User List</a></li>
+				<% if (session.getAttribute("username") != null) { %>
+					<% if (session.getAttribute("role").equals("admin")) { %>
+						<li><a href="UserList">User List</a></li>
+					<% } %>
 				<% } %>
 			</ul>
 		</div>

@@ -34,14 +34,7 @@ public class Register extends HttpServlet
 			Connection conn = DriverManager.getConnection(db, "root", "");
 			Statement stmt = conn.createStatement();
 			
-			String query = "INSERT INTO roles (role) VALUES('users')";
-			stmt.executeUpdate(query);
-			String queryGetRoleID = "SELECT LAST_INSERT_ID() as id";
-			ResultSet rs = stmt.executeQuery(queryGetRoleID);
-			int tmpRoleID = 0;
-			while (rs.next()) tmpRoleID = rs.getInt("id");
-			
-			String query2 = "INSERT INTO users (username, password, roleid) values ('" + username + "', '" + password + "', " + tmpRoleID + ")";
+			String query2 = "INSERT INTO users (username, password, roleid) values ('" + username + "', '" + password + "', 2)";
 			stmt.executeUpdate(query2);
 			String queryGetUserID = "SELECT LAST_INSERT_ID() as id";
 			ResultSet rs1 = stmt.executeQuery(queryGetUserID);
