@@ -3,7 +3,9 @@ JDK
 Nodejs
 JSP Server (Tomcat)
 MySQL Server (phpmyadmin)
+MySQL connector J
+JSTL library
 
 Teknologi yang digunakan:
-HTML, CSS, JSP, SERVLET, PHPMYADMIN, XML, JAVASCRIPT, NODEJS, SOCKETIO
+HTML, CSS, JSP, SERVLET, PHPMYADMIN, XML, JAVASCRIPT, NODEJS, SOCKETIO, JSTL
 
