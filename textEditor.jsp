@@ -52,7 +52,9 @@
 			if (xmlHttpRequest.readyState == 4) {
 			  if (xmlHttpRequest.status == 200) {
 				fileValue = xmlHttpRequest.responseText;
-				$("#textValue").val(fileValue);
+				$("#textId").val(fileName);
+				$("#textValue").val(fileValue).focus();
+				socketio.emit("join_room",{room:"edit"+fileName});
 			  } else {
 				alert("HTTP error " + xmlHttpRequest.status + ": " + xmlHttpRequest.statusText);
 			  }
@@ -93,7 +95,6 @@
 		}
 		
 		function init(){
-			console.log(fileValue);
 			$.fn.selectRange = function(start, end) {
 				// var position = $("#textValue").getCursorPosition();
 				// setCookie("position", position);
@@ -173,7 +174,6 @@
 		});
 		
 		function editFile(e) {
-			console.log('asd');
 			var position = $("#textValue").getCursorPosition();
 			setCookie("position", position);
 			// console.log('editfile - position: '+position);
@@ -182,13 +182,13 @@
 			if (oldValue == newValue) return;
 
 			setCookie("currentValue", newValue);
-			socketio.emit("message_to_server", {message: newValue, pos: position});
+			socketio.emit("message_to_server", {message: newValue, pos: position,room:"edit"+fileName});
 		}
 	</script>
 	<%@ include file = "template-page/tempNavLogin.jsp" %>
   <form method="POST" action="tulis.jsp" style="width:80%">
 	<textarea id="textValue" name="textValue" style="width:100%;height:400px;float:left"><% //out.print(textValue);%></textarea>
-	<input type="hidden" name="textId" value="<%//out.print(textId);%>">
+	<input type="hidden" name="textId" id="textId" value="<%//out.print(textId);%>">
 	<input type="submit">
   </form>
 	<!--textarea id="textValue" style="width:100%;height:400px"></textarea>
