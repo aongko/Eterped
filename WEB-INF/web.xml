@@ -11,6 +11,13 @@
         <welcome-file>index.jsp</welcome-file>
     </welcome-file-list>
 	
+	<context-param> 
+		<description>File Location</description> 
+		<param-name>file-upload-path</param-name> 
+		<param-value>
+			 C:\xampp\tomcat\webapps\Eterped\file-upload
+		 </param-value> 
+	</context-param>
 	<!-- Servlet List -->
 	<servlet>
 		<servlet-name>Login</servlet-name>
@@ -35,6 +42,10 @@
 	<servlet>
 		<servlet-name>Storage</servlet-name>
 		<servlet-class>controller.user_management.Storage</servlet-class>
+	</servlet>
+	<servlet>
+		<servlet-name>LoadFile</servlet-name>
+		<servlet-class>controller.user_management.LoadFile</servlet-class>
 	</servlet>
 	
 	<!-- Mapping servlet -->
@@ -61,5 +72,9 @@
 	<servlet-mapping>
 		<servlet-name>Storage</servlet-name>
 		<url-pattern>/Storage</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>LoadFile</servlet-name>
+		<url-pattern>/LoadFile</url-pattern>
 	</servlet-mapping>
 </web-app>

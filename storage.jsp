@@ -12,7 +12,8 @@
 			Storage storage = new Storage();
 			String s = (String)session.getAttribute("name");
 			storage.setUsername(s);
-			for (FileData x : storage.hoho()) {
+			List<FileData> list = storage.hoho();
+			for (FileData x : list) {
 				out.println("<a href=" + x.getName() + ">" + x.getName() + "</a>" + "<br>");
 			}
 			

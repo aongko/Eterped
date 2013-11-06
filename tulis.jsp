@@ -11,7 +11,7 @@
         BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(os));
         bw.write(textValue);
         bw.close();
-        response.sendRedirect("baca.jsp?textId=" + textId);
+        response.sendRedirect("textEditor.jsp?textId=" + textId);
       }
       catch (IOException e) {
         out.println(e.getMessage());

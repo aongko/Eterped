@@ -1,11 +1,65 @@
+<%@ page contentType="text/html; charset=utf-8" language="java" import="java.util.*" errorPage="" %>
+<%@page import = "java.io.*" %>
 <!DOCTYPE html>
 <html>
-<head>
-	<title>Client</title>
-
-    <script type="text/javascript" src="js/jquery-1.7.2.min.js"></script>
-	<script src="http://10.21.0.50:1337/socket.io/socket.io.js"></script>
+	<%@ include file = "template-page/tempHeader.jsp" %>
+<body>
+	<script src="http://10.21.0.46:1337/socket.io/socket.io.js"></script>
 	<script type="text/javascript">
+		var fileName,fileValue = "";
+		function getXMLHttpRequest() {
+		  var xmlHttpReq = false;
+		  // to create XMLHttpRequest object in non-Microsoft browsers
+		  if (window.XMLHttpRequest) {
+			xmlHttpReq = new XMLHttpRequest();
+		  } else if (window.ActiveXObject) {
+			try {
+			  // to create XMLHttpRequest object in later versions
+			  // of Internet Explorer
+			  xmlHttpReq = new ActiveXObject("Msxml2.XMLHTTP");
+			} catch (exp1) {
+			  try {
+				// to create XMLHttpRequest object in older versions
+				// of Internet Explorer
+				xmlHttpReq = new ActiveXObject("Microsoft.XMLHTTP");
+			  } catch (exp2) {
+				xmlHttpReq = false;
+			  }
+			}
+		  }
+		  return xmlHttpReq;
+		}
+		/*
+		 * AJAX call starts with this function
+		 */
+		function makeRequest() {
+			var xmlHttpRequest = getXMLHttpRequest();
+			xmlHttpRequest.onreadystatechange = getReadyStateHandler(xmlHttpRequest);
+			xmlHttpRequest.open("GET", "LoadFile?fileName="+fileName, true);
+			xmlHttpRequest.setRequestHeader("Content-Type",
+			  "application/x-www-form-urlencoded");
+			xmlHttpRequest.send(null);
+		}
+		 
+		/*
+		 * Returns a function that waits for the state change in XMLHttpRequest
+		 */
+		function getReadyStateHandler(xmlHttpRequest) {
+		 
+		  // an anonymous function returned
+		  // it listens to the XMLHttpRequest instance
+		  return function() {
+			if (xmlHttpRequest.readyState == 4) {
+			  if (xmlHttpRequest.status == 200) {
+				fileValue = xmlHttpRequest.responseText;
+				$("#textValue").val(fileValue);
+			  } else {
+				alert("HTTP error " + xmlHttpRequest.status + ": " + xmlHttpRequest.statusText);
+			  }
+			}
+		  };
+		}
+		
 		function setCookie(cookieName,value,liveTime){
 			var expire = new Date();
 			expire.setDate(expire.getDate() + liveTime);
@@ -38,9 +92,10 @@
 			return cookieValue;
 		}
 		
-		$(document).ready(function(){
+		function init(){
+			console.log(fileValue);
 			$.fn.selectRange = function(start, end) {
-				// var position = $("#txt_message").getCursorPosition();
+				// var position = $("#textValue").getCursorPosition();
 				// setCookie("position", position);
 				// console.log('ready - position: '+position);
 				if(!end) end = start; 
@@ -71,13 +126,19 @@
 				}
 				return pos;
 			};
-			setCookie("currentValue", $("#txt_message").val());
+			setCookie("currentValue", $("#textValue").val());
 			// setCookie("position", 0);
 			// console.log('getCursorPosition - position: 0');
-			$("#txt_message").keyup(editFile);
+			$("#textValue").keyup(editFile);
+			fileName = location.hash.substr(1);
+			makeRequest();
+		}
+		
+		$(document).ready(function(){
+			init();
 		});
 		// some code
-		var socketio = io.connect("10.21.0.50:1337");
+		var socketio = io.connect("10.21.0.46:1337");
 
 		socketio.on("message_to_client", function(data) {
 			// var str = "<hr>"+data["message"];
@@ -93,7 +154,7 @@
 			var editPosStart = editPosEnd - changeCharLength;
 
 			// document.getElementById("chat_log").innerHTML = (str + document.getElementById("chat_log").innerHTML);
-			$("#txt_message").val(newValue);
+			$("#textValue").val(newValue);
 			setCookie("currentValue", newValue);
 
 			// console.log('oldPos: '+pos);
@@ -105,28 +166,33 @@
 			if (editPosStart <= pos) {
 				pos += changeCharLength;
 			}
-			// pos += olValue.length - $("#txt_message").val().length;
+			// pos += olValue.length - $("#textValue").val().length;
 			setCookie("position", pos);
 			// console.log("newPos: "+pos);
-			$("#txt_message").selectRange(pos);
+			$("#textValue").selectRange(pos);
 		});
 		
 		function editFile(e) {
-			var position = $("#txt_message").getCursorPosition();
+			console.log('asd');
+			var position = $("#textValue").getCursorPosition();
 			setCookie("position", position);
 			// console.log('editfile - position: '+position);
 			var oldValue = getCookie("currentValue");
-			var newValue = $("#txt_message").val();
+			var newValue = $("#textValue").val();
 			if (oldValue == newValue) return;
 
 			setCookie("currentValue", newValue);
 			socketio.emit("message_to_server", {message: newValue, pos: position});
 		}
 	</script>
-</head>
-<body>
-	<textarea id="txt_message" style="width:100%;height:400px"></textarea>
+	<%@ include file = "template-page/tempNavLogin.jsp" %>
+  <form method="POST" action="tulis.jsp" style="width:80%">
+	<textarea id="textValue" name="textValue" style="width:100%;height:400px;float:left"><% //out.print(textValue);%></textarea>
+	<input type="hidden" name="textId" value="<%//out.print(textId);%>">
+	<input type="submit">
+  </form>
+	<!--textarea id="textValue" style="width:100%;height:400px"></textarea>
 	<button id="savebtn">save</button>
-	<div id="chat_log"></div>
+	<div id="chat_log"></div-->
 </body>
 </html>
