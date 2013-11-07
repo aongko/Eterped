@@ -9,7 +9,12 @@
                     usersListView.innerHTML += users[i] + "<br>";
                 }
             }
+
+            function addToChat(from, msg) {
+                chatArea.innerHTML += from + ": " + msg + "</br>";
+            }
             function init() {
+                systemUsername = "System";
                 users = [];
 
                 socketio = io.connect("http://localhost:1337");
@@ -27,21 +32,21 @@
                 roomTitle.innerHTML = room;
 
                 socketio.on('new_chat', function(data) {
-                    chatArea.innerHTML += data["from"] + ": " + data["message"] + "</br>";
+                    addToChat(data["from"], data["message"]);
                 });
 
                 socketio.on('user_disconnected', function(data) {
-                    alert(data["username"] + "disconnected!");
                     for (var i = 0; i < users.length; i++)
                         if (users[i] == data["username"])
                             users.splice(i, 1);
                     refreshUsersListView()
+                    addToChat(systemUsername, data["username"] + " left the room.");
                 });
 
                 socketio.on('user_connected', function(data) {
-                    alert(data["username"] + "connected!");
                     users.push(data["username"]);
                     refreshUsersListView()
+                    addToChat(systemUsername, data["username"] + " joined the room.");
                 });
 
                 socketio.on('users_in_room', function(data) {
