@@ -14,7 +14,7 @@
 			storage.setUsername(s);
 			List<FileData> list = storage.hoho();
 			for (FileData x : list) {
-				out.println("<a href=" + x.getName() + ">" + x.getName() + "</a>" + "<br>");
+				out.println("<a href='textEditor.jsp#" + x.getName() + "'>" + x.getName() + "</a>" + "<br>");
 			}
 			
 		%>
