@@ -3,11 +3,13 @@
 <!DOCTYPE html>
 <html>
 	<%@ include file = "template-page/tempHeader.jsp" %>
+	<% String ipNodeJs = "10.21.0.50"; %>
+	<% String port = "1337"; %>
 <body>
-	<script src="http://10.21.0.46:1337/socket.io/socket.io.js"></script>
+	<script src="http://<%=ipNodeJs%>:<%=port%>/socket.io/socket.io.js"></script>
 	<script type="text/javascript">
 		var fileName,fileValue = "",chatArea;
-		var socketio = io.connect("10.21.0.46:1337");
+		var socketio = io.connect("<%=ipNodeJs%>:<%=port%>");
 		function getXMLHttpRequest() {
 		  var xmlHttpReq = false;
 		  // to create XMLHttpRequest object in non-Microsoft browsers

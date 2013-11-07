@@ -10,7 +10,7 @@
 		
 		<%
 			Storage storage = new Storage();
-			String s = (String)session.getAttribute("name");
+			String s = (String)session.getAttribute("username");
 			storage.setUsername(s);
 			List<FileData> list = storage.hoho();
 			for (FileData x : list) {
@@ -24,6 +24,7 @@
 				var fileName = prompt("Please enter file name:","File name");
 				location.href = "textEditor.jsp#"+$.trim(fileName);
 			})
+			console.log('<%=storage.hoho()%>');
 		</script>
 	</body>
 </html>

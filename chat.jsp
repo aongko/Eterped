@@ -1,6 +1,6 @@
 <html>
     <head>
-        <script src="http://localhost:1337/socket.io/socket.io.js"></script>
+        <script src="http://10.21.0.50:1337/socket.io/socket.io.js"></script>
         <script type="text/javascript">
             function refreshUsersListView() {
                 users.sort();
@@ -18,7 +18,7 @@
                 systemUsername = "System";
                 users = [];
 
-                socketio = io.connect("http://localhost:1337");
+                socketio = io.connect("http://10.21.0.50:1337");
             
                 chatArea = document.getElementById("chatArea");
                 chatTypeArea = document.getElementById("chatTypeArea");
