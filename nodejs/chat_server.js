@@ -9,23 +9,15 @@ var io = require('socket.io').listen(app);
 
 io.sockets.on('connection', function(socket) {
     socket.on('init', function(data) {
-        console.log("someone init : ")
-        console.log(data);
         socket.join(data["room"]);
-        socket.username = data["username"];
-        socket.room = data["room"];
+        socket.username = sanitize(data["username"]).escape();
+        socket.room = sanitize(data["room"]).escape();
 
-        console.log("send user_connected");
-        console.log({username : socket.username});
         socket.broadcast.to(socket.room).emit('user_connected', {username : socket.username});
         socket.emit('users_in_room', {users : getUsersInRoom()});
     });
 
     socket.on('send_chat_to_current_room', function(data) {
-        console.log("Event : send_chat_to_current_room");
-        console.log(socket.username);
-        console.log(socket.room);
-        console.log(data);
         var escaped_message = sanitize(data["message"]).escape();
         if (socket.username && socket.room) {
 
@@ -34,7 +26,6 @@ io.sockets.on('connection', function(socket) {
     });
 
     socket.on('disconnect', function() {
-        console.log(socket);
         socket.broadcast.to(socket.room).emit('user_disconnected', {username : socket.username});
     });
 

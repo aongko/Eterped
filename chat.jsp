@@ -13,6 +13,7 @@
             function addToChat(from, msg) {
                 chatArea.innerHTML += from + ": " + msg + "</br>";
             }
+
             function init() {
                 systemUsername = "System";
                 users = [];
@@ -20,6 +21,7 @@
                 socketio = io.connect("http://localhost:1337");
             
                 chatArea = document.getElementById("chatArea");
+                chatTypeArea = document.getElementById("chatTypeArea");
                 roomTitle = document.getElementById("roomTitle");
                 usersListView = document.getElementById("usersList");
 
@@ -30,6 +32,8 @@
                 
                 socketio.emit('init', {username : username, room : room});
                 roomTitle.innerHTML = room;
+
+                chatTypeArea.focus();
 
                 socketio.on('new_chat', function(data) {
                     addToChat(data["from"], data["message"]);
@@ -56,10 +60,9 @@
             }
 
             function sendChat() {
-                var messageElement = document.getElementById("chatTypeArea");
 
-                socketio.emit('send_chat_to_current_room', {message : messageElement.value});
-                messageElement.value = "";
+                socketio.emit('send_chat_to_current_room', {message : chatTypeArea.value});
+                chatTypeArea.value = "";
             }
         </script>
     </head>
