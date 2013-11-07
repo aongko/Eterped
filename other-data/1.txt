@@ -9,3 +9,8 @@ JSTL library
 Teknologi yang digunakan:
 HTML, CSS, JSP, SERVLET, PHPMYADMIN, XML, JAVASCRIPT, NODEJS, SOCKETIO, JSTL
 
+Link:
+XAMPP		www.apachefriends.org/en/xampp.html
+NODEJS		http://nodejs.org/
+SOCKET IO	http://socket.io/
+JDK		http://www.oracle.com/technetwork/java/javase/downloads/index.html
