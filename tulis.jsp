@@ -11,7 +11,9 @@
         BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(os));
         bw.write(textValue);
         bw.close();
-        response.sendRedirect("textEditor.jsp#" + textId);
+%>
+<script>location.href = "NewFile?fileName=<%=textId%>&username=<%=session.getAttribute("username")%>";</script>
+<%
       }
       catch (IOException e) {
         out.println(e.getMessage());
