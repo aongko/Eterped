@@ -6,7 +6,8 @@
 <body>
 	<script src="http://10.21.0.46:1337/socket.io/socket.io.js"></script>
 	<script type="text/javascript">
-		var fileName,fileValue = "";
+		var fileName,fileValue = "",chatArea;
+		var socketio = io.connect("10.21.0.46:1337");
 		function getXMLHttpRequest() {
 		  var xmlHttpReq = false;
 		  // to create XMLHttpRequest object in non-Microsoft browsers
@@ -53,6 +54,7 @@
 			  if (xmlHttpRequest.status == 200) {
 				fileValue = xmlHttpRequest.responseText;
 				$("#textId").val(fileName);
+				$("#fileName").text(fileName);
 				$("#textValue").val(fileValue).focus();
 				socketio.emit("join_room",{room:"edit"+fileName,username:"<%=session.getAttribute("username")%>"});
 				socketio.emit("get_client",{room:"edit"+fileName});
@@ -128,19 +130,24 @@
 				}
 				return pos;
 			};
+            chatArea = document.getElementById("chatArea");
 			setCookie("currentValue", $("#textValue").val());
 			// setCookie("position", 0);
 			// console.log('getCursorPosition - position: 0');
 			$("#textValue").keyup(editFile);
 			fileName = location.hash.substr(1);
 			makeRequest();
+			
+			$("#chatForm").submit(function(e){
+				e.preventDefault();
+				
+				sendChat();
+			});
 		}
 		
 		$(document).ready(function(){
 			init();
 		});
-		// some code
-		var socketio = io.connect("10.21.0.46:1337");
 
 		socketio.on("list_client",function(data){
 			var header = $("#listClient").find("div").filter(function(){return $(this).children("h3").length === 1;});
@@ -184,6 +191,11 @@
 			$("#textValue").selectRange(pos);
 		});
 		
+		socketio.on('new_chat', function(data) {
+			$("#chatTypeArea").val("");
+			$(chatArea).append($("<div style='width:100%;float:left'>"+data["from"] + ": " + data["message"] +"</div>"));
+		});
+		
 		function editFile(e) {
 			var position = $("#textValue").getCursorPosition();
 			setCookie("position", position);
@@ -195,15 +207,31 @@
 			setCookie("currentValue", newValue);
 			socketio.emit("message_to_server", {message: newValue, pos: position,room:"edit"+fileName});
 		}
+		
+		function sendChat() {
+			var message = document.getElementById("chatTypeArea").value;
+
+			socketio.emit('send_chat_to_current_room', {message : message});
+		}
 	</script>
 	<%@ include file = "template-page/tempNavLogin.jsp" %>
+	<h1 style="width:100%;text-align:center" id="fileName"></h1>
 	<form method="POST" action="tulis.jsp" style="width:80%;float:left;">
-		<textarea id="textValue" name="textValue" style="width:100%;height:400px;float:left"><% //out.print(textValue);%></textarea>
-		<input type="hidden" name="textId" id="textId" value="<%//out.print(textId);%>">
-		<input type="submit">
+		<textarea id="textValue" name="textValue" style="width:100%;height:400px;float:left"></textarea>
+		<input type="hidden" name="textId" id="textId" value="">
+		<input type="submit" value="Save">
 	</form>
-	<div id="listClient" style="width:20%;float:right;">
-		<div style="background:lime;text-align:center"><h3 style="margin:0">List User</h3></div>
+	<div style="width:20%;float:right;">
+		<div id="listClient">
+			<div style="background:lime;text-align:center"><h3 style="margin:0">List User</h3></div>
+		</div>
+		<div id="chat" style="vertical-align:bottom">
+			<form id="chatForm" style="margin-top:10px;margin-bottom:10px;">
+				<input id="chatTypeArea" style="width:70%" type="text">
+				<input type="submit" style="width:28%" id="chat" value="Chat" />
+			</form>
+			<div id="chatArea" style="height:300px; width:100%; background-color:#00A0B1; float:left;"></div>
+		</div>
 	</div>
 	<!--textarea id="textValue" style="width:100%;height:400px"></textarea>
 	<button id="savebtn">save</button>

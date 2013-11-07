@@ -27,8 +27,16 @@ io.sockets.on('connection', function(socket) {
 		});
 		io.sockets.in(data["room"]).emit("list_client",{client:clientsName});
 	});
+    socket.on('send_chat_to_current_room', function(data) {
+        var escaped_message = sanitize(data["message"]).escape();
+		
+        if (socket.username && socket.room) {
+            io.sockets.in(socket.room).emit('new_chat', {message:escaped_message, from:socket.username});
+        }
+    });
 	socket.on('join_room', function(data) {
 		socket.username = data["username"];
+		socket.room = data["room"];
 		socket.join(data["room"]);
 	});
 });
