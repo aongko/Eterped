@@ -1,0 +1,43 @@
+DeleteUser
+- uid
++ doGet
+
+LoadFile
++ init
++ doGet
++ doPost
+
+Login
+- Role
+- RealName
+- username
+- password
++ encryptPassowrd
++ cekUser
++ init
++ doGet
++ doPost
+
+Logout
++ doGet
++ doPost
+
+Register
+- username
+- pass
+- confPass
+- realName
++ encryptPassword
++ insertIntoDatabase
++ init
++ doGet
++ doPost
+
+Storage
+- username
++ setUsername
++ hoho
+
+UserList
++ doGet
++ doPost
