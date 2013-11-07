@@ -18,7 +18,17 @@ io.sockets.on('connection', function(socket) {
 		var escaped_message = sanitize(data["message"]).escape();
 		socket.broadcast.to(data["room"]).emit('message_to_client', {message:escaped_message, pos:data["pos"],d:data});
 	});
+	socket.on('get_client', function(data) {
+		var clientsObject = io.sockets.clients(data["room"]);
+		var clientsName = [];
+		//console.log(clients);
+		clientsObject.forEach(function(client) {
+			clientsName.push(client.username);
+		});
+		io.sockets.in(data["room"]).emit("list_client",{client:clientsName});
+	});
 	socket.on('join_room', function(data) {
+		socket.username = data["username"];
 		socket.join(data["room"]);
 	});
 });

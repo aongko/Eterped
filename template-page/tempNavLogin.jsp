@@ -8,7 +8,7 @@
 		<div class="navbar-collapse collapse">
 			<ul class="nav navbar-nav">
 				<li><a href="home.jsp">Home</a></li>
-				<li><a href="textEditor.jsp">Text Editor</a></li>
+				<!--li><a href="textEditor.jsp">Text Editor</a></li-->
 				<li><a href="storage.jsp">Storage</a></li>
 				<% if (session.getAttribute("username") != null) { %>
 					<% if (session.getAttribute("role").equals("admin")) { %>
