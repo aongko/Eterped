@@ -54,7 +54,8 @@
 				fileValue = xmlHttpRequest.responseText;
 				$("#textId").val(fileName);
 				$("#textValue").val(fileValue).focus();
-				socketio.emit("join_room",{room:"edit"+fileName});
+				socketio.emit("join_room",{room:"edit"+fileName,username:"<%=session.getAttribute("username")%>"});
+				socketio.emit("get_client",{room:"edit"+fileName});
 			  } else {
 				alert("HTTP error " + xmlHttpRequest.status + ": " + xmlHttpRequest.statusText);
 			  }
@@ -141,6 +142,16 @@
 		// some code
 		var socketio = io.connect("10.21.0.46:1337");
 
+		socketio.on("list_client",function(data){
+			var header = $("#listClient").find("div").filter(function(){return $(this).children("h3").length === 1;});
+			$("#listClient div").not(header).remove();
+			var clients = data.client;
+			for(var i=0;i<clients.length;i++)
+			{
+				$("#listClient").append($("<div style='border:1px solid black;width:100%'>"+clients[i]+"</div>"));
+			}
+		})
+		
 		socketio.on("message_to_client", function(data) {
 			// var str = "<hr>"+data["message"];
 			var str = data["message"];
@@ -186,11 +197,14 @@
 		}
 	</script>
 	<%@ include file = "template-page/tempNavLogin.jsp" %>
-  <form method="POST" action="tulis.jsp" style="width:80%">
-	<textarea id="textValue" name="textValue" style="width:100%;height:400px;float:left"><% //out.print(textValue);%></textarea>
-	<input type="hidden" name="textId" id="textId" value="<%//out.print(textId);%>">
-	<input type="submit">
-  </form>
+	<form method="POST" action="tulis.jsp" style="width:80%;float:left;">
+		<textarea id="textValue" name="textValue" style="width:100%;height:400px;float:left"><% //out.print(textValue);%></textarea>
+		<input type="hidden" name="textId" id="textId" value="<%//out.print(textId);%>">
+		<input type="submit">
+	</form>
+	<div id="listClient" style="width:20%;float:right;">
+		<div style="background:lime;text-align:center"><h3 style="margin:0">List User</h3></div>
+	</div>
 	<!--textarea id="textValue" style="width:100%;height:400px"></textarea>
 	<button id="savebtn">save</button>
 	<div id="chat_log"></div-->
