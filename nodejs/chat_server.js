@@ -8,15 +8,6 @@ var app = http.createServer(function (request, response) {
 var io = require('socket.io').listen(app);
 
 io.sockets.on('connection', function(socket) {
-    socket.on('message_to_server', function(data) {
-        var escaped_message = sanitize(data["message"]).escape();
-        socket.broadcast.to(data["room"]).emit('message_to_client', {message:escaped_message, pos:data["pos"],d:data});
-    });
-    
-    socket.on('join_room', function(data) {
-        socket.join(data["room"]);
-    });
-
     socket.on('init', function(data) {
         console.log("someone init : ")
         console.log(data);
