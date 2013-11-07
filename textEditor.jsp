@@ -216,19 +216,21 @@
 	</script>
 	<%@ include file = "template-page/tempNavLogin.jsp" %>
 	<h1 style="width:100%;text-align:center" id="fileName"></h1>
-	<form method="POST" action="tulis.jsp" style="width:80%;float:left;">
-		<textarea id="textValue" name="textValue" style="width:100%;height:400px;float:left"></textarea>
-		<input type="hidden" name="textId" id="textId" value="">
-		<input type="submit" value="Save">
-	</form>
+	<div>
+		<form method="POST" action="tulis.jsp" class="form-signin" style="width:80%;float:left;">
+			<textarea id="textValue" name="textValue" class="form-control" style="width:99%;height:400px"></textarea>
+			<input type="hidden" name="textId" id="textId" value=""><br>
+			<input type="submit" class="btn btn-success" value="Save">
+		</form>
+	</div>
 	<div style="width:20%;float:right;">
 		<div id="listClient">
-			<div style="background:lime;text-align:center"><h3 style="margin:0">List User</h3></div>
+			<div style="background:grey;text-align:center"><h3 style="margin:0">List User</h3></div>
 		</div>
 		<div id="chat" style="vertical-align:bottom">
-			<form id="chatForm" style="margin-top:10px;margin-bottom:10px;">
-				<input id="chatTypeArea" style="width:70%" type="text">
-				<input type="submit" style="width:28%" id="chat" value="Chat" />
+			<form id="chatForm" class="form-signin" style="margin-top:10px;margin-bottom:10px;">
+				<input id="chatTypeArea" class="form-control" style="width:70%; display:inline" type="text">
+				<input type="submit" class="btn btn-success" style="width:28%" id="chat" value="Chat" />
 			</form>
 			<div id="chatArea" style="height:300px; width:100%; background-color:#00A0B1; float:left;"></div>
 		</div>
