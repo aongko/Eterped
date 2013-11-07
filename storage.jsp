@@ -18,5 +18,12 @@
 			}
 			
 		%>
+		<button id="newFile" style="border-corner:10px">Add New File</button>
+		<script>
+			$("#newFile").click(function(){
+				var fileName = prompt("Please enter file name:","File name");
+				location.href = "textEditor.jsp#"+$.trim(fileName);
+			})
+		</script>
 	</body>
 </html>
