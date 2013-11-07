@@ -56,9 +56,10 @@
             }
 
             function sendChat() {
-                var message = document.getElementById("chatTypeArea").value;
+                var messageElement = document.getElementById("chatTypeArea");
 
-                socketio.emit('send_chat_to_current_room', {message : message});
+                socketio.emit('send_chat_to_current_room', {message : messageElement.value});
+                messageElement.value = "";
             }
         </script>
     </head>
@@ -66,7 +67,7 @@
         <h1 id="roomTitle">&nbsp;</h1>
         <div id="chatArea" style="height:500px; width:1000px; background-color:#00A0B1; float:left;"></div>
         <div id="usersList" style="height:500px; width:200px; background-color:grey; float:right;"></div>
-        <input id="chatTypeArea" type="text">
+        <input id="chatTypeArea" type="text" onKeyDown="if (event.keyCode == 13) sendChat();">
         <button id="chat" onClick="sendChat()">submit</button>
     </body>
 </html>
