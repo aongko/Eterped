@@ -51,12 +51,12 @@
 		<servlet-name>NewFile</servlet-name>
 		<servlet-class>controller.user_management.NewFile</servlet-class>
 	</servlet>
-	
+
 	<!-- Mapping servlet -->
-    <servlet-mapping>
+	<servlet-mapping>
 		<servlet-name>Login</servlet-name>
 		<url-pattern>/Login</url-pattern>
-    </servlet-mapping>
+	</servlet-mapping>
 	<servlet-mapping>
 		<servlet-name>Register</servlet-name>
 		<url-pattern>/Register</url-pattern>
@@ -81,8 +81,8 @@
 		<servlet-name>LoadFile</servlet-name>
 		<url-pattern>/LoadFile</url-pattern>
 	</servlet-mapping>
-    <servlet-mapping>
+	<servlet-mapping>
 		<servlet-name>NewFile</servlet-name>
 		<url-pattern>/NewFile</url-pattern>
-    </servlet-mapping>
+	</servlet-mapping>
 </web-app>
